@@ -24,7 +24,6 @@ export const registerController = async(req, res) => {
             username,
             password: hashedPassword,
         })
-
         const token = jwt.sign(
             { userId: newUser._id},
             JWT_SECRET,
@@ -55,9 +54,8 @@ User.schema.methods.comparePassword = async function (password) {
 export const loginController = async(req,res) => {
     try {
       const { username, password } = req.body;
-      const normalizedUsername = username.toLowerCase();
       
-      const user = await User.findOne({ username: normalizedUsername });
+      const user = await User.findOne({ username: username });
       if (!user) {
           return res.status(400).json({ message: 'Invalid credentials' });
       }
